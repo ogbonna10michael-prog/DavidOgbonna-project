@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CloudVault — Your Files, Your Control</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0f;
+    --paper: #f5f4ef;
+    --accent: #ff4f1f;
+    --accent2: #1a1aff;
+    --muted: #888;
+    --border: rgba(0,0,0,0.1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 3rem;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(245,244,239,0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; letter-spacing: -0.03em; }
+  .logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 1rem; }
+  .btn {
+    padding: 0.6rem 1.4rem;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+    border: none;
+  }
+  .btn-ghost { background: transparent; border: 1.5px solid var(--ink); color: var(--ink); }
+  .btn-ghost:hover { background: var(--ink); color: var(--paper); }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: #e03d0f; transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding-top: 80px;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 3rem 6rem 4rem;
+  }
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 5vw, 5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+    max-width: 440px;
+    margin-bottom: 2.5rem;
+  }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-lg { padding: 0.9rem 2rem; font-size: 1rem; }
+
+  .hero-right {
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-right::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(255,79,31,0.25), transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(26,26,255,0.15), transparent 50%);
+  }
+  .file-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 3rem;
+    transform: rotate(-3deg);
+  }
+  .file-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    color: white;
+    animation: float 3s ease-in-out infinite;
+  }
+  .file-card:nth-child(2) { animation-delay: 0.4s; }
+  .file-card:nth-child(3) { animation-delay: 0.8s; }
+  .file-card:nth-child(4) { animation-delay: 0.2s; }
+  .file-card:nth-child(5) { animation-delay: 0.6s; }
+  .file-card:nth-child(6) { animation-delay: 1.0s; }
+  .file-card:nth-child(7) { animation-delay: 0.3s; }
+  .file-card:nth-child(8) { animation-delay: 0.7s; }
+  .file-card:nth-child(9) { animation-delay: 1.1s; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-6px); }
+  }
+  .file-icon { font-size: 1.8rem; display: block; margin-bottom: 0.5rem; }
+  .file-label { font-size: 0.65rem; color: rgba(255,255,255,0.5); font-weight: 500; letter-spacing: 0.05em; }
+
+  /* FEATURES */
+  .features {
+    padding: 6rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .features h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 3rem;
+    max-width: 600px;
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .feature-item {
+    padding: 2rem;
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    transition: all 0.3s;
+  }
+  .feature-item:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .feature-emoji { font-size: 2rem; margin-bottom: 1rem; display: block; }
+  .feature-item h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .feature-item p { font-size: 0.9rem; color: #666; line-height: 1.5; }
+
+  /* CTA STRIP */
+  .cta-strip {
+    margin: 0 4rem 6rem;
+    background: var(--ink);
+    color: white;
+    border-radius: 24px;
+    padding: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-strip::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(255,79,31,0.3), transparent 60%);
+    pointer-events: none;
+  }
+  .cta-strip h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 800;
+    max-width: 500px;
+    position: relative;
+  }
+  .cta-strip .btn-primary { white-space: nowrap; position: relative; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { min-height: 300px; }
+    .feature-grid { grid-template-columns: 1fr; }
+    nav { padding: 1rem 1.5rem; }
+    .hero-left { padding: 4rem 1.5rem; }
+    .features { padding: 4rem 1.5rem; }
+    .cta-strip { margin: 0 1.5rem 4rem; }
+    footer { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Cloud<span>Vault</span></div>
+  <div class="nav-links">
+    <a href="/login" class="btn btn-ghost">Log in</a>
+    <a href="/register" class="btn btn-primary">Get started</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <p class="eyebrow">Your personal cloud storage</p>
+    <h1>Store files<br>with <em>zero</em><br>fuss</h1>
+    <p class="hero-sub">Upload, organize, and access your files from anywhere. No subscriptions. No data mining. Just your files, locked to your account.</p>
+    <div class="hero-ctas">
+      <a href="/register" class="btn btn-primary btn-lg">Create free account →</a>
+      <a href="/login" class="btn btn-ghost btn-lg">Sign in</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="file-grid">
+      <div class="file-card"><span class="file-icon">🖼️</span><span class="file-label">photo.jpg</span></div>
+      <div class="file-card"><span class="file-icon">📕</span><span class="file-label">report.pdf</span></div>
+      <div class="file-card"><span class="file-icon">🎬</span><span class="file-label">demo.mp4</span></div>
+      <div class="file-card"><span class="file-icon">📊</span><span class="file-label">data.xlsx</span></div>
+      <div class="file-card"><span class="file-icon">📝</span><span class="file-label">notes.docx</span></div>
+      <div class="file-card"><span class="file-icon">🗜️</span><span class="file-label">backup.zip</span></div>
+      <div class="file-card"><span class="file-icon">🔧</span><span class="file-label">config.json</span></div>
+      <div class="file-card"><span class="file-icon">📃</span><span class="file-label">readme.txt</span></div>
+      <div class="file-card"><span class="file-icon">🎵</span><span class="file-label">track.mp3</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <p class="section-label">What you get</p>
+  <h2>Everything you need,<br>nothing you don't</h2>
+  <div class="feature-grid">
+    <div class="feature-item">
+      <span class="feature-emoji">🔐</span>
+      <h3>Secure authentication</h3>
+      <p>Salted password hashing, HTTP-only session cookies, and server-side session validation.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-emoji">⚡</span>
+      <h3>Fast uploads</h3>
+      <p>Drag and drop or click to upload. Files stored with UUID names to prevent collisions.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-emoji">📁</span>
+      <h3>Your files only</h3>
+      <p>Every file is user-scoped. You can only see, download, or delete your own files.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-emoji">📥</span>
+      <h3>Instant downloads</h3>
+      <p>Download any of your files instantly with one click, preserving the original filename.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-emoji">🗑️</span>
+      <h3>Clean deletes</h3>
+      <p>Deleting a file removes it from both the database and disk — no orphaned data.</p>
+    </div>
+    <div class="feature-item">
+      <span class="feature-emoji">📐</span>
+      <h3>50MB limit</h3>
+      <p>Each file up to 50MB. All major formats supported — images, PDFs, docs, videos, archives.</p>
+    </div>
+  </div>
+</section>
+
+<div class="cta-strip">
+  <h2>Ready to take control of your files?</h2>
+  <a href="/register" class="btn btn-primary btn-lg">Create your vault →</a>
+</div>
+
+<footer>
+  <div class="logo" style="font-size:1rem;">Cloud<span style="color:var(--accent)">Vault</span></div>
+  <span>Built with FastAPI, SQLite & ❤️</span>
+</footer>
+
+</body>
+</html>
